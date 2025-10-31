@@ -1,0 +1,35 @@
+{
+  "name": "RTT",
+  "version": "8.56a",
+  "description": "SEGGER RTT (Real Time Transfer) library for embedded targets",
+  "keywords": ["rtt", "segger", "real-time", "transfer", "debug", "logging", "embedded"],
+  "authors": [
+    {
+      "name": "SEGGER Microcontroller GmbH",
+      "email": "support@segger.com",
+      "url": "https://www.segger.com",
+      "maintainer": true
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SEGGERMicro/RTT.git"
+  },
+  "homepage": "https://www.segger.com/products/debug-probes/j-link/technology/about-real-time-transfer/",
+  "license": "Segger License Agreement",
+  "frameworks": ["stm32cube", "arduino", "espidf"],
+  "platforms": ["ststm32", "espressif32", "atmelsam"],
+  "headers": [
+    "SEGGER_RTT.h",
+    "SEGGER_RTT_log.h"
+  ],
+  "build": {
+    "includeDir": "include",
+    "srcDir": "src",
+    "srcFilter": [
+      "+<*.c>",
+      "+<*.S>",
+      "+<*.h>"
+    ]
+  }
+}

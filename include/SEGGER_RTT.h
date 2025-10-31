@@ -514,7 +514,58 @@ int SEGGER_RTT_vprintf(unsigned BufferIndex, const char * sFormat, va_list * pPa
 #define RTT_CTRL_BG_BRIGHT_CYAN       "\x1B[4;46m"
 #define RTT_CTRL_BG_BRIGHT_WHITE      "\x1B[4;47m"
 
+// 日志级别定义
+#define LOG_LEVEL_NONE  0
+#define LOG_LEVEL_ERROR 1
+#define LOG_LEVEL_WARN  2
+#define LOG_LEVEL_INFO  3
+#define LOG_LEVEL_DEBUG 4
 
+// 默认日志级别为DEBUG
+#ifndef LOG_LEVEL
+#define LOG_LEVEL LOG_LEVEL_INFO
+#endif
+
+// 日志宏实现
+#if LOG_LEVEL >= LOG_LEVEL_DEBUG
+#define LOG_D(fmt, ...) do { \
+    SEGGER_RTT_printf(0, RTT_CTRL_TEXT_CYAN "[DEBUG] %s:%d: " fmt RTT_CTRL_RESET, __FILE__, __LINE__, ##__VA_ARGS__); \
+} while(0)
+#else
+#define LOG_D(fmt, ...)
+#endif
+
+#if LOG_LEVEL >= LOG_LEVEL_INFO
+#define LOG_I(fmt, ...) do { \
+    SEGGER_RTT_printf(0, RTT_CTRL_TEXT_GREEN "[INFO] %s:%d: " fmt RTT_CTRL_RESET, __FILE__, __LINE__, ##__VA_ARGS__); \
+} while(0)
+#else
+#define LOG_I(fmt, ...)
+#endif
+
+#if LOG_LEVEL >= LOG_LEVEL_WARN
+#define LOG_W(fmt, ...) do { \
+    SEGGER_RTT_printf(0, RTT_CTRL_TEXT_YELLOW "[WARN] %s:%d: " fmt RTT_CTRL_RESET, __FILE__, __LINE__, ##__VA_ARGS__); \
+} while(0)
+#else
+#define LOG_W(fmt, ...)
+#endif
+
+#if LOG_LEVEL >= LOG_LEVEL_ERROR
+#define LOG_E(fmt, ...) do { \
+    SEGGER_RTT_printf(0, RTT_CTRL_TEXT_RED "[ERROR] %s:%d: " fmt RTT_CTRL_RESET, __FILE__, __LINE__, ##__VA_ARGS__); \
+} while(0)
+#else
+#define LOG_E(fmt, ...)
+#endif
+
+// 条件日志宏
+#define LOG_IF(condition, level, fmt, ...) \
+    do { \
+        if (condition) { \
+            LOG_##level(fmt, ##__VA_ARGS__); \
+        } \
+    } while(0)
 #endif
 
 /*************************** End of file ****************************/
